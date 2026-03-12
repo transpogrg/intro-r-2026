@@ -19,9 +19,9 @@ Participants must bring their own laptop. Prior to the start of the workshop ple
   - Other operating systems, download git [here](https://git-scm.com/install/).
 
 ### Required readings
-- [Wilson, G, Aruliah, D.A., Brown, C.T., Chue Hong, N.P., Davis, M, Guy, R.T, et al. (2014) Best Practices for Scientific Computing. PLoS Biol 12(1): e1001745. https://doi.org/10.1371/journal.pbio.1001745](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1001745)
+- [Wilson, G., Aruliah, D.A., Brown, C.T., Chue Hong, N.P., Davis, M., Guy, R.T, et al. (2014). Best Practices for Scientific Computing. PLoS Biol 12(1): e1001745. https://doi.org/10.1371/journal.pbio.1001745](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1001745)
 - [Broman, K. W., & Woo, K. H. (2018). Data Organization in Spreadsheets. The American Statistician, 72(1), 2–10. https://doi.org/10.1080/00031305.2017.1375989](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989)
-- 
+- Chapter 2: Best Practices in [Sonnenberg, H., Rustler, H., & Sprenger, C. (2019). Best Practices in Research Data Management. FAKIN project documentation.](https://kwb-r.github.io/fakin.doc/index.html)
 
 ### Resources used for this workshop
 - [R for Data Science](https://r4ds.hadley.nz/) (2nd edition)
