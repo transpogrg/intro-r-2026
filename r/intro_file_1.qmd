@@ -25,7 +25,16 @@ When you click the **Render** button a document will be generated that includes 
 4
 typeof(8.5)
 ```
+
 ```{r}
 "yours"
+```
+
+```{r}
+a <- c(1,2,3)
+a
+c("a","b","c")
+c(TRUE,FALSE)
+c(1,"two",3)
 ```
 
