@@ -6,19 +6,10 @@ date: 2026-03-18
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
 1 + 1
 ```
-
-
 
 ```{r}
 3
@@ -36,5 +27,17 @@ a
 c("a","b","c")
 c(TRUE,FALSE)
 c(1,"two",3)
+```
+
+
+
+```{r}
+#| label: setup
+source("training_source.R")
+```
+
+```{r}
+csv_path <- "../data/raw/presurvey_20260317.csv"
+survey_raw <- rio::import(csv_path)
 ```
 
