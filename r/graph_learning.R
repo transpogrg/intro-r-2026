@@ -23,3 +23,8 @@ speed_volume_fig2 <- clean_df |>
   geom_line()
 
 speed_volume_fig2
+
+det_speed_figly <-ggplotly(speed_occ_fig)
+det_speed_figly
+
+|> |> |> |> |> 
