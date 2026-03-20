@@ -1,12 +1,11 @@
 #Load  librarie
 
-library(
-tidyr,
-dplyr,
-lubridate,
-ggplot2
-)
+library(tidyr)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
 
+setwd( "C:/Users/VielhabG/Desktop/gittest/intro-r-2026/r")
 
 clean_df <- readRDS("../data/clean_data.rds")
 raw_detectors <- read.csv("../data/raw/detectors.csv", stringsAsFactors = F)
@@ -16,37 +15,53 @@ raw_detectors <- read.csv("../data/raw/detectors.csv", stringsAsFactors = F)
 head(clean_df$starttime)
 
 
-clean_df$starttime >ymd_hms(clean_df$starttime, tz = "US/Pacific")
+clean_df$starttime <- ymd_hms(clean_df$starttime, tz = "US/Pacific")
 
 #cod to pull up timezone list OlsonNames()
-det_st_ids <- raw_detectors |> 
-    select(
-      detectorid,
-      stationid
-    ) |> 
-  distinct() |> 
-  as.data.frame
+det_st_ids <- raw_detectors |>
+  select(detectorid, stationid) |>
+  distinct() |>
+  as.data.frame()
 
 
-stations_df <- clean_df |> 
-    left_join(det_st_ids, by = c("detector_id" = "detectorid")) |> 
-                #quotes are needed in vectors. left joins are essentially elaborate INDEX/MATCH
-  group_by(
-    stationid,
-    starttime
-  ) |> 
+stations_df <- clean_df |>
+  left_join(det_st_ids, by = c("detector_id" = "detectorid")) |>
+  #quotes are needed in vectors. left joins are essentially elaborate INDEX/MATCH
+  group_by(stationid, starttime) |>
   summarise(
     mean_speed = mean(speed),
     tot_volume = sum(volume),
     mean_occ = mean(occupancy)
-  ) |> 
+  ) |>
   as.data.frame()
 
-sta_1059 <- stations_df  |>  
-  filter(stationid == 1059) |> 
-  ggplot(aes(x = starttime, y = tot_volume)) + 
-  geom_line() +
-  geom_point()
+
+sta_1059 <- stations_df  |>
+  filter(stationid == 1059) |>
+  right_join(starttime_seq, by = "starttime") |> 
+  ggplot(aes(x = starttime, y = tot_volume)) +
+  geom_line(color = "skyblue") +
+  geom_point(color = "darkblue") +
+  scale_x_datetime(
+    date_breaks = "1 day",
+    date_labels = "%Y-%m-%d",
+    guide = guide_axis(angle = 45)
+  ) +
+  xlab(NULL) +
+  theme_bw() +
+  geom_hline(yintercept = mean(stations_df$tot_volume),
+             color = "pink")
 
 sta_1059
 #OlsonNames()
+
+
+starttime_seq <- seq(
+  from = ymd_hms("2026-02-01 00:00:00", tz = "US/Pacific"),
+  to = ymd_hms("2026-02-16 00:00:00", tz = "US/Pacific"),
+  by = "15 min"
+  ) |> 
+as.data.frame()  
+  
+colnames(starttime_seq) <- c("starttime")
+
