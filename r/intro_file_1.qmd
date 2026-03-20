@@ -148,6 +148,9 @@ long_survey <- survey2 |>
 ##str_extract(numeric_text, "[A-Z]{2}")  
                               ##search for [these things]{this many characters}
 
+#pdftools is a great package for importing and extracting information from PDfs
+#julia slige, r analysis of jane austen
+
 ```
 
 ```{r}
