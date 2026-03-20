@@ -87,3 +87,15 @@ figure_function <- function(stid, measure){
 }
 
 figure_function(3142, mean_speed)
+
+
+getwd()
+
+source("figure_func_sta.R")
+
+figure_function_1(10755,mean_occ)
+
+
+
+
+

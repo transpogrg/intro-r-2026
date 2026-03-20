@@ -73,9 +73,6 @@ survey <- survey_raw |>
 
 ```
 
-
-
-
 ```{r}
 linux <- c("linux","ubuntu","debian", "fedora","arch")
 
@@ -98,20 +95,61 @@ survey2 <- survey |>
 glimpse(survey2)
 ```
 
-
-
-
-
 ```{r}
+
+
+num_dict_words <- paste(textclean::replace_number(seq_len(100)), collapse = "|")
+
+text_num_tbl <- tibble(num = seq_len(100)) |> 
+  mutate(
+    word = textclean::replace_number(num),
+    word_num = as.character(num)
+  ) |> 
+
+  select(word, word_num)
+
 long_survey <- survey2 |>
   select(distance, commute_time) |> 
-  pivot_longer(cols = c(distance,commute_time), names_to = "num_text_var", 
+  mutate(rid = row_number()) |> 
+  pivot_longer(cols = c(distance,commute_time), 
+               names_to = "num_text_var", 
                values_to = "numeric_text") |> 
-  mutate(numeric_text = str_to_lower(numeric_text),
-         .rid = row_number()) 
-
+  mutate(numeric_text = str_to_lower(numeric_text)) |> 
+  filter(nchar(numeric_text)>2) |> 
+  mutate(
+    #setting an object as = eg "xyz = " is creating a vector/temp vector
+    num_words = str_extract_all(numeric_text, num_dict_words, simplify = T),
+                            #nchar, count the number of characterts
+     num_words = case_when(nchar(num_words[,1])<2 ~ NA_character_,
+                           # ~ is then or next in sequence (subsequence)
+                           #each part of case when is seperated  bt comma
+                           #paste is essentially concatenate
+                          nchar(num_words[,2])>2 ~ 
+                            paste(num_words[,1],num_words[,2], sep = "-"),
+                          TRUE ~ num_words[,1]
+      
+    )
+       
+  ) |> 
+  left_join(text_num_tbl, by = c("num_words"="word")) |> 
+  mutate(num_raw = case_when(!is.na(word_num) ~ word_num,
+                              str_detect(numeric_text, "\\ban\\b") ~ "1",
+                              TRUE ~ numeric_text
+                        ),
+         num = parse_number(num_raw)
+         )
+  
+#select(text_num_tbl, word, word_num) --pull the exact columns you want to pull in on a join
+#Summary Notes  
+# settings an object as = creates a vector. 
+  #remember, vectors can only be one "type", can have character and integer
+#
+#~ is then or next in sequence
+##str_extract(numeric_text, "[A-Z]{2}")  
+                              ##search for [these things]{this many characters}
 
 ```
+
 ```{r}
 
 wide_survey <- long_survey |> 
@@ -125,4 +163,22 @@ wide_survey <- long_survey |>
 
  
 ```
+
+
+```{r}
+
+
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
 
